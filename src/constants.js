@@ -1,1 +1,1 @@
-export const DB_NAME="event_workshop_management_system"
+export const DB_NAME="event"
