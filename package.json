@@ -1,0 +1,30 @@
+{
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.18.0"
+  },
+  "name": "event-and-workshop-discovery-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm i",
+    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
+    "type": "module"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pushpanjalii/Local-Event-and-workshop-discovery-platform.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pushpanjalii/Local-Event-and-workshop-discovery-platform/issues"
+  },
+  "homepage": "https://github.com/pushpanjalii/Local-Event-and-workshop-discovery-platform#readme"
+}
