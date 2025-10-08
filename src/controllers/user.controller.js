@@ -1,10 +1,11 @@
-
 import { asyncHandler } from "../utils/asyncHandler.js";
 import {ApiError} from "../utils/ApiError.js"
 import { User} from "../models/user.models.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken"
 import mongoose from "mongoose"; 
+// import { oauth2client } from "../utils/googleConfig.js";
+import axios from "axios";
 
 
 const generateAccessAndRefereshTokens = async(userId) =>{
@@ -68,6 +69,34 @@ const registerUser = asyncHandler( async (req, res) => {
     )
 
 } )
+
+// const googleLogin = async (req,res) => {
+//     try {
+//         const {code} = req.query;
+//         const googleRes = await oauth2client.getToken(code);
+//         oauth2client.setCredentials(googleRes.tokens);
+//         const userRes = await axios.get(`https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=${googleRes.tokens.access_token}`, 
+//         );
+//         const {email, name} = userRes.data;
+//         let user = await User.findOne({email});
+//         if(!user) {
+//             user = await User.create({name,email})
+//         }
+//            const {_id} = user;
+//            const token = jwt.sign({ _id, email},
+//             process.env.JWT_SECRET,
+//             { expiresIn: process.env.JWT_TIMEOUT }
+//            )
+//            return res.status(200).json({
+//             message: "User logged in successfully",
+//             token,
+//             user
+//            })
+        
+//     } catch (error) {
+//         res.status(500).json({message: "Internal Server Error", error: error.message})
+//     }
+// }
 
 const loginUser = asyncHandler(async (req, res) =>{
 
@@ -177,6 +206,7 @@ const getCurrentUser = asyncHandler(async(req, res) => {
 
 export {
     registerUser,
+    // googleLogin,
     loginUser,
     logoutUser, 
     getCurrentUser,
