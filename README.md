@@ -47,5 +47,3 @@ A centralized platform where:
 ### Deployment
 - **Backend**: AWS  
 - **Frontend**: AWS  
-git clone <your-repo-url>
-cd <your-project-folder>
