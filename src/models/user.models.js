@@ -17,10 +17,13 @@ const userSchema = new Schema(
             type: String,
             required: [true, 'Password is required']
         },
+        role: {
+            type: String,
+            enum: ['attendee', 'organizer'],
+        },
         refreshToken: {
             type: String
         }
-
     },
     {
         timestamps: true

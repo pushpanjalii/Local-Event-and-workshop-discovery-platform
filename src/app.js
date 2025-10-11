@@ -16,9 +16,11 @@ app.use(cookieParser())
 
 
 
-import userRouter from "./routes/user.routes.js";
+import userRouter from "./routes/user.routes.js"
+app.use("/api/v1/users", userRouter);
 
-app.use("/api/v1/users", userRouter)
+import eventRouter from "./routes/event.routes.js";
+app.use("/api/v1/events", eventRouter);
 
 app.get('/', (req, res) => {
     res.status(200).send('All Apis are working fine');
