@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Menu, X, Heart, Star, MapPin, Calendar, Search, Clock, ArrowRight } from 'lucide-react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function EventPlatform() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -13,6 +14,7 @@ export default function EventPlatform() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [userRole, setUserRole] = useState('user');
   const [userName, setUserName] = useState('');
+  const navigate = useNavigate();
 
   const categories = ['All', 'Arts', 'Tech', 'Health', 'Education', 'Music', 'Sports'];
   
@@ -205,9 +207,13 @@ export default function EventPlatform() {
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('user');
 
-  const login = async (data) => {
+  const login = async (e) => {
+    e.preventDefault()
+      const data={
+      email,password,role
+    }
     try {
-      console.log(data, 'data');
+
       const response = await fetch('http://localhost:3000/api/v1/users/login', {
         method: 'POST',
         headers: {
@@ -215,10 +221,11 @@ export default function EventPlatform() {
         },
         body: JSON.stringify(data),
       });
-      const data = await response.json();
-      console.log(data);
+      const result = await response.json();
+      console.log(result);
       if (data.success) {
         // Handle successful login
+        navigate('/');
         console.log('Login successful:', data);
       } else {
         // Handle login error
@@ -238,10 +245,9 @@ export default function EventPlatform() {
           </div>
           
           <div className="p-8 space-y-4">
-            <form onSubmit={(e) => {
-              e.preventDefault();
-              login(data);
-            }}>
+            <form onSubmit={
+             login
+          }>
               
                 <label className="text-sm font-semibold text-gray-700 block mb-2">Email</label>
                 <input 
@@ -262,9 +268,7 @@ export default function EventPlatform() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none transition" 
               />
-            
-
-            
+                        
               <label className="text-sm font-semibold text-gray-700 block mb-2">Login As</label>
               <select 
                 value={role}
