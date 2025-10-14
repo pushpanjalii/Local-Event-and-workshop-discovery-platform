@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Menu, X, Heart, Star, MapPin, Calendar, Search, Clock, ArrowRight } from 'lucide-react';
+import axios from 'axios';
 
 export default function EventPlatform() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -141,7 +142,7 @@ export default function EventPlatform() {
   const filteredEvents = mockEvents.filter(event => {
     const categoryMatch = selectedCategory === 'All' || event.category === selectedCategory;
     const searchMatch = event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                       event.organizer.toLowerCase().includes(searchQuery.toLowerCase());
+    event.organizer.toLowerCase().includes(searchQuery.toLowerCase());
     return categoryMatch && searchMatch;
   });
 
@@ -204,6 +205,30 @@ export default function EventPlatform() {
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('user');
 
+  const login = async (data) => {
+    try {
+      console.log(data, 'data');
+      const response = await fetch('http://localhost:3000/api/v1/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      const data = await response.json();
+      console.log(data);
+      if (data.success) {
+        // Handle successful login
+        console.log('Login successful:', data);
+      } else {
+        // Handle login error
+        console.error('Login failed:', data.message);
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+    }
+  };
+
     return showLoginModal && (
       <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
@@ -213,11 +238,15 @@ export default function EventPlatform() {
           </div>
           
           <div className="p-8 space-y-4">
-            <div>
-              <label className="text-sm font-semibold text-gray-700 block mb-2">Email</label>
-              <input 
-                type="email" 
-                placeholder="your@email.com" 
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              login(data);
+            }}>
+              <div>
+                <label className="text-sm font-semibold text-gray-700 block mb-2">Email</label>
+                <input 
+                  type="email" 
+                  placeholder="your@email.com" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none transition" 
@@ -246,16 +275,10 @@ export default function EventPlatform() {
                 <option value="organizer">Event Organizer</option>
               </select>
             </div>
-
-            <div className="flex gap-3 pt-4">
+            <button>login</button>
+            {/* <div className="flex gap-3 pt-4">
               <button 
-                onClick={() => {
-                  if(email && password) {
-                    handleLogin(email, role);
-                  } else {
-                    alert('Please fill all fields');
-                  }
-                }}
+                
                 className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition"
               >
                 Login
@@ -266,12 +289,15 @@ export default function EventPlatform() {
               >
                 Cancel
               </button>
+            </div> */}
+              </form>
             </div>
           </div>
         </div>
-      </div>
     );
   };
+
+
 
   const HomePage = () => (
     <div className="min-h-screen bg-gray-50">
