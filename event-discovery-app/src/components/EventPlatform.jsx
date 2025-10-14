@@ -242,7 +242,7 @@ export default function EventPlatform() {
               e.preventDefault();
               login(data);
             }}>
-              <div>
+              
                 <label className="text-sm font-semibold text-gray-700 block mb-2">Email</label>
                 <input 
                   type="email" 
@@ -251,9 +251,9 @@ export default function EventPlatform() {
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none transition" 
               />
-            </div>
             
-            <div>
+            
+            
               <label className="text-sm font-semibold text-gray-700 block mb-2">Password</label>
               <input 
                 type="password" 
@@ -262,9 +262,9 @@ export default function EventPlatform() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none transition" 
               />
-            </div>
+            
 
-            <div>
+            
               <label className="text-sm font-semibold text-gray-700 block mb-2">Login As</label>
               <select 
                 value={role}
@@ -274,7 +274,7 @@ export default function EventPlatform() {
                 <option value="user">Regular User</option>
                 <option value="organizer">Event Organizer</option>
               </select>
-            </div>
+            
             <button>login</button>
             {/* <div className="flex gap-3 pt-4">
               <button 
