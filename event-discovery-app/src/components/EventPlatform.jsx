@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Menu, X, Heart, Star, MapPin, Calendar, Search, Clock, ArrowRight } from 'lucide-react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
+
+
 
 export default function EventPlatform() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -14,10 +16,10 @@ export default function EventPlatform() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [userRole, setUserRole] = useState('user');
   const [userName, setUserName] = useState('');
-  const navigate = useNavigate();
+ 
 
   const categories = ['All', 'Arts', 'Tech', 'Health', 'Education', 'Music', 'Sports'];
-  
+
   const mockEvents = [
     {
       id: 1,
@@ -212,28 +214,28 @@ export default function EventPlatform() {
       const data={
       email,password,role
     }
-    try {
+    // try {
 
-      const response = await fetch('http://localhost:3000/api/v1/users/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-      const result = await response.json();
-      console.log(result);
-      if (data.success) {
-        // Handle successful login
-        navigate('/');
-        console.log('Login successful:', data);
-      } else {
-        // Handle login error
-        console.error('Login failed:', data.message);
-      }
-    } catch (error) {
-      console.error('Error during login:', error);
-    }
+    //   const response = await fetch('http://localhost:3000/api/v1/users/login', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(data),
+    //   });
+    //   const result = await response.json();
+    //   console.log(result);
+    //   if (data.success) {
+    //     // Handle successful login
+    //     navigate('/');
+    //     console.log('Login successful:', data);
+    //   } else {
+    //     // Handle login error
+    //     console.error('Login failed:', data.message);
+    //   }
+    // } catch (error) {
+    //   console.error('Error during login:', error);
+    // }
   };
 
     return showLoginModal && (

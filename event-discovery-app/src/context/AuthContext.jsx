@@ -5,34 +5,30 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
-  const [userRole, setUserRole] = useState('user');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Check if user is already logged in
     const token = localStorage.getItem('token');
     const savedUser = localStorage.getItem('user');
     
     if (token && savedUser) {
       setIsLoggedIn(true);
-      const userData = JSON.parse(savedUser);
-      setUser(userData);
-      setUserRole(userData.role || 'user');
+      setUser(JSON.parse(savedUser));
     }
     setLoading(false);
   }, []);
 
-  const login = (email, password, role) => {
+  const login = (userData, token) => {
     setIsLoggedIn(true);
-    setUserRole(role);
-    setUser({ email, name: email.split('@')[0], role });
-    localStorage.setItem('token', 'mock-token-' + Date.now());
-    localStorage.setItem('user', JSON.stringify({ email, role }));
+    setUser(userData);
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(userData));
   };
 
   const logout = () => {
     setIsLoggedIn(false);
     setUser(null);
-    setUserRole('user');
     localStorage.removeItem('token');
     localStorage.removeItem('user');
   };
@@ -41,7 +37,6 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider value={{
       isLoggedIn,
       user,
-      userRole,
       loading,
       login,
       logout
