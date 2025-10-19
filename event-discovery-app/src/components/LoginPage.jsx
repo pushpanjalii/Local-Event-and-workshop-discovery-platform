@@ -6,7 +6,7 @@ import { authService } from '../services/authService';
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('user');
+  const [role, setRole] = useState('attendee');
   const [isRegister, setIsRegister] = useState(false);
   const [name, setName] = useState('');
   const [error, setError] = useState('');
@@ -26,13 +26,39 @@ export default function LoginPage() {
     e.preventDefault();
     setError('');
     setLoading(true);
-
+console.log('yha aa rha hai')
     try {
       if (isRegister) {
+        console.log('yha ayay')
         // Register new user
-        await authService.register(email, password, name, role);
-        // After registration, login automatically
-        const response = await authService.login(email, password);
+        // await authService.register(email, password, name, role);
+        // // After registration, login automatically
+        // const response = await authService.login(email, password);
+
+        const registerData={
+          email,
+          password,
+          fullName:name,
+          role
+        }
+        console.log(registerData,'see data at register')
+              const response = await fetch('http://localhost:3000/api/v1/users/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(registerData),
+      });
+      const result = await response.json();
+      console.log(result,'see result');
+      if (result.success) {
+        // Handle successful login
+        navigate('/');
+        console.log('register', data);
+      } else {
+        // Handle login error
+        console.error('Login failed:', data.message);
+      }
         login(response.user, response.token);
         navigate('/');
       } else {
@@ -40,7 +66,13 @@ export default function LoginPage() {
         // const response = await authService.login(email, password);
         // login(response.user, response.token);
            try {
-
+const data={
+  email:email,
+  password:password,
+  role:role,
+  
+}
+console.log(data,'data')
       const response = await fetch('http://localhost:3000/api/v1/users/login', {
         method: 'POST',
         headers: {
@@ -50,13 +82,13 @@ export default function LoginPage() {
       });
       const result = await response.json();
       console.log(result);
-      if (data.success) {
+      if (result.success) {
         // Handle successful login
         navigate('/');
         console.log('Login successful:', data);
       } else {
         // Handle login error
-        console.error('Login failed:', data.message);
+        console.error('Login failed:', data);
       }
     } catch (error) {
       console.error('Error during login:', error);
@@ -128,7 +160,7 @@ export default function LoginPage() {
               onChange={(e) => setRole(e.target.value)}
               className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none appearance-none bg-white"
             >
-              <option value="user">Regular User</option>
+              <option value="attendee">Attendee</option>
               <option value="organizer">Event Organizer</option>
             </select>
           </div>
